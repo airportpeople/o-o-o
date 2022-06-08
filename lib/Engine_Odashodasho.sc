@@ -184,7 +184,7 @@ Engine_Odashodasho : CroneEngine {
 		fm1Syn=Synth("OdashodashoFX",[\in,fm1Bus],context.server);
 		context.server.sync;
 		
-		this.addCommand("fm1sample","isffffffffffffs",{
+		this.addCommand("fm1sample","isfffffffffffffs",{
 			arg msg;
 			var voice=msg[15].asString;
 			var sample=msg[2].asString;
@@ -200,17 +200,18 @@ Engine_Odashodasho : CroneEngine {
 						// \diskout,fm1DiskBus.at(voice),
 						\bufnum,bufnum,
 						\start,msg[3],
-						\amp,msg[4],
-						\pan,msg[5],
-						\atk,msg[6],
-						\rel,msg[7],
-						\cAtk,msg[8],
-						\cRel,msg[9],
-						\rate,msg[10],
-						\fxsend,msg[11],
-						\eqFreq,msg[12],
-						\eqDB,msg[13],
-						\lpf,msg[14],
+						\end,msg[4]
+						\amp,msg[5],
+						\pan,msg[6],
+						\atk,msg[7],
+						\rel,msg[8],
+						\cAtk,msg[9],
+						\cRel,msg[10],
+						\rate,msg[11],
+						\fxsend,msg[12],
+						\eqFreq,msg[13],
+						\eqDB,msg[14],
+						\lpf,msg[15],
 						\out,0,
 						\fx,fm1Bus,
 					]).onFree({
