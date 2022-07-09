@@ -337,6 +337,7 @@ function init()
     params:add_group(ins,31)
     params:add{type="option",id=ins.."sound",name="sound",options={"fm","sample"},default=1,action=function(v)
       rebuild_menu(ins,v)
+      update_scales()  -- << airportpeople patch >>
     end}
     -- sample
     params:add_file(ins.."sample_file","sample file",patches[ins].sample_file)
@@ -500,8 +501,16 @@ end
 
 function update_scales()
   for _,ins in ipairs(instrument_list) do
-    params:set(ins.."scale_mode",params:get("scale_mode_all"))
-    params:set(ins.."root_note",params:get("root_note_all"))
+    -- << start airportpeople patch >> 
+    if params:get(ins.."sound") == 2 then
+      -- setup for nudging with sample slices
+      params:set(ins.."scale_mode", 41)
+      params:set(ins.."root_note", 0)
+    else
+      params:set(ins.."scale_mode",params:get("scale_mode_all"))
+      params:set(ins.."root_note",params:get("root_note_all"))
+    end
+    -- << end airportpeople patch >> 
   end
 end
 
@@ -639,24 +648,35 @@ function play_note(a)
         print("not a valid file: "..sample)
         do return end
       end
-      rate=transpose_to_intonation(params:get(a.type.."sample_note"),a.note)
+      -- << start airportpeople patch >>
+      -- rate=transpose_to_intonation(params:get(a.type.."sample_note"),a.note)
+      -- we don't use a.note for the case when root_note = 127 (full nudge)
+      gid = id_to_gid(a.id)
+      slice_start = (gid - 1) / 64
+      slice_root = params:get(a.type.."root_note")
+      div_i = params:get(a.type.."div_scale")
+      slice_rate = global_div_scales[div_i]
+      nudge = (slice_root / 128) * (1 / 64)  -- nudge between slices
+      slice_start = slice_start + nudge
+      
       engine.fm1sample(
-        a.note,
+        1,
         sample,
-        0,
+        slice_start,
         a.amp,
         a.pan,
         a.attack,
         a.decay,
         a.attack_curve,
         a.decay_curve,
-        rate,
+        slice_rate,
         a.send,
         a.eq_freq,
         a.eq_db,
         a.lpf,
         a.type
       )
+      -- << end airportpeople patch >>
     else
       engine.fm1(
         a.note,
@@ -922,3 +942,12 @@ function show_message(message)
     redraw()
   end)
 end
+
+-- << start airportpeople patch >>
+function id_to_gid(id_)
+  -- convert bottom-up, left-right to left-right bottom-down
+  row = 8 - (id_ - 1) % 8
+  col = (id_ - 1) // 8 + 1
+  return (row - 1) * 8 + col
+end
+-- << end airportpeople patch >>
