@@ -79,7 +79,7 @@ The sample is divided into 64 evenly spaced slices, represented on the *connecti
 
 Whenever the `sound` mode is set to `sample`, the `scale mode` is set to `chromatic`, and the `root note` is set to `C-2` (the lowest value) by default. The `chromatic` scale is inert, because "notes" (pads) aren't referenced in the usual way anymore. The `root note` setting allows nudging.
 
-When the `root note` is the lowest value (`C-2`), each slice starts as described above. As you increase the `root note`, you increase the amount to which you want to nudge slice starting position. We divide the space between each slice (i.e., $\frac{1}{64}$th of the sample length) into 128 divisions. The `root note` ranges from 0 (`C-2`) to 127 (`G8`), and this determines how many $\frac{1}{128}$ths you'd like to "nudge" the starting position of *every* slice to the "right".
+When the `root note` is the lowest value (`C-2`), each slice starts as described above. As you increase the `root note`, you increase the amount to which you want to nudge slice starting position. We divide the space between each slice (i.e., $\frac{1}{64}\text{th}$ of the sample length) into 128 divisions. The `root note` ranges from 0 (`C-2`) to 127 (`G8`), and this determines how many $\frac{1}{128}\text{ths}$ you'd like to "nudge" the starting position of *every* slice to the "right".
 
 ```
 # um, pretend there are 128 .s between the |s, below
