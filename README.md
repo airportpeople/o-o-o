@@ -65,15 +65,18 @@ https://github.com/schollz/o-o-o
 - [ ] mx.samples, show the sample name
 
 ## airportpeople patch
+
 When the `sound` mode is set to `sample`, the following features arise:
 
 **sample slices**
+
 The sample is divided into 64 evenly spaced slices, represented on the *connections* grid (on the left):
 - The slices are distributed from left-to-right, then top-to-bottom, like reading a book (i.e., the 1st slice is represented by the pad on the upper left, the 9th slice is represented by the 1st pad in the 2nd row, etc.).
 - The 1st slice starts at $t=0$, and the 2nd slice starts at $t = \frac{1}{64} \cdot \text{sample length}$.
 - A slice is triggered when a connection is triggered, as usual
 
 **nudging**
+
 Whenever the `sound` mode is set to `sample`, the `scale mode` is set to `chromatic`, and the `root note` is set to `C-2` (the lowest value) by default. The `chromatic` scale is inert, because "notes" (pads) aren't referenced in the usual way anymore. The `root note` setting allows nudging.
 
 When the `root note` is the lowest value (`C-2`), each slice starts as described above. As you increase the `root note`, you increase the amount to which you want to nudge slice starting position. We divide the space between each slice (i.e., $\frac{1}{64}$th of the sample length) into 128 divisions. The `root note` ranges from 0 (`C-2`) to 127 (`G8`), and this determines how many $\frac{1}{128}$ths you'd like to "nudge" the starting position of *every* slice to the "right".
@@ -101,4 +104,5 @@ NUDGE (root) = 1 (C#-2)
 ```
 
 **slice octave**
+
 Lastly, the `div scale` parameter now controls the rate of all slices within the instrument selected. So, if the `div scale` is 2, we increase the rate of the sample (i.e., each slice) to an octave up, and when it is 0.5, we decrease the rate of the sample (i.e., each slice) to an octave down.
